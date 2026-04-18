@@ -36,7 +36,15 @@ button {
     color: white;
 }
 
-/* floating effect */
+input {
+    padding: 8px;
+    border-radius: 10px;
+    border: none;
+    margin-top: 10px;
+    text-align: center;
+}
+
+/* confetti */
 .heart {
     position: fixed;
     font-size: 20px;
@@ -44,7 +52,7 @@ button {
 }
 
 @keyframes floatUp {
-    0% {transform: scale(0.5) translateY(0); opacity:1;}
+    0% {transform: scale(0.5); opacity:1;}
     100% {transform: scale(1.5) translateY(-100vh); opacity:0;}
 }
 </style>
@@ -54,6 +62,7 @@ button {
 
 <h1>For My Sweetheart Uthra 💜✨</h1>
 
+<!-- MAIN BOX -->
 <div class="box">
 
 <h3>Open this every morning 💜✨</h3>
@@ -61,8 +70,7 @@ button {
 <img src="https://i.postimg.cc/nckNn3Zz/Whats-App-Image-2026-04-19-at-12-49-04-AM.jpg">
 
 <p>
-Good morning my sweetheart 💜✨  
-(This message you update daily 💙)
+Good morning my sweetheart 💜✨ Yesterday… I know I hurt you a little with my overthinking and insecurity. I’m really sorry for that. I never wanted to make you feel uncomfortable… it just came from how much I love you. I’m learning, and I promise I’ll become better for you 💙 This is the last time I’ll ever hurt you like that… I’ll never repeat it again. And about that form also… I feel bad I missed it. Next time I’ll be more careful, I want to be someone you can always rely on. One more thing… please don’t feel guilty about my birthday or anything. I don’t need anything big… just being with you is enough for me 🥺💙 Take care today, don’t skip food, don’t get too tired… I’ll be waiting to see you this evening ❤️ Love you as always 💜✨
 </p>
 
 <button onclick="showSurprise()">Tap for surprise 💜</button>
@@ -82,6 +90,20 @@ You are my peace… my safe place… and my favorite person 💙
 
 </div>
 
+<!-- 🌱 LOVE TREE -->
+<div class="box">
+<h2>🌱 Our Love Tree</h2>
+
+<div id="tree" style="font-size:60px;">🌱</div>
+
+<input id="loveInput" placeholder="Type: I love you mama 💜">
+<br>
+<button onclick="growTreeDaily()">Grow 💜</button>
+
+<p id="treeMsg"></p>
+</div>
+
+<!-- COUNTDOWN -->
 <div class="box">
 <h2>⏳ Counting moments until your special day 💜✨</h2>
 <div id="countdown"></div>
@@ -106,7 +128,7 @@ function growHeart() {
   document.getElementById("heart").style.fontSize = size + "px";
 }
 
-// 🎁 birthday check
+// 🎁 birthday
 function checkDate() {
   let today = new Date();
   let date = today.getDate();
@@ -114,7 +136,10 @@ function checkDate() {
 
   if(date == 3 && month == 5){
     document.getElementById("giftMsg").innerHTML =
-    "Happy Birthday my love 💜✨ This page was made only for you ❤️";
+    "Happy Birthday my love 💜✨ Our love tree is complete ❤️";
+
+    document.getElementById("tree").innerHTML = "🌳🍇🍉";
+
     startConfetti();
   } else {
     document.getElementById("giftMsg").innerHTML =
@@ -151,7 +176,60 @@ function startConfetti() {
   }
 }
 
-// auto effect
+// 🌱 TREE SYSTEM (FIXED)
+const stages = [
+"🌱",
+"🌿",
+"🌾",
+"🌳",
+"🌳✨",
+"🌳💜",
+"🌳🌸"
+]; // ❌ removed fruits from normal stages
+
+let stage = parseInt(localStorage.getItem("treeStage")) || 0;
+let lastDate = localStorage.getItem("lastGrowDate");
+let today = new Date().toDateString();
+
+function updateTree() {
+  document.getElementById("tree").innerHTML = stages[stage];
+}
+updateTree();
+
+function growTreeDaily() {
+
+  let input = document.getElementById("loveInput").value.toLowerCase();
+
+  if(!input.includes("love")) {
+    document.getElementById("treeMsg").innerHTML =
+    "Say it properly 😏💜";
+    return;
+  }
+
+  if(lastDate === today) {
+    document.getElementById("treeMsg").innerHTML =
+    "Already grew today 💜 come tomorrow 🥺";
+    return;
+  }
+
+  if(stage < stages.length - 1) {
+    stage++;
+    localStorage.setItem("treeStage", stage);
+    localStorage.setItem("lastGrowDate", today);
+
+    updateTree();
+
+    document.getElementById("treeMsg").innerHTML =
+    "Our love is growing everyday 💜✨";
+  } else {
+    document.getElementById("treeMsg").innerHTML =
+    "Almost complete… wait for your special day 💜";
+  }
+
+  document.getElementById("loveInput").value = "";
+}
+
+// auto confetti
 window.onload = function() {
   startConfetti();
 }
