@@ -106,12 +106,14 @@ Call me when you wake up okay? I’ll be waiting like always 💜✨
 My sweetheart… my peace… my everything 🫂💙
 </p>
 <!-- 🎧 VOICE MESSAGE BUTTON -->
+<!-- 🎧 VOICE MESSAGE BUTTON -->
 <h3>🎧 A small voice message for you 💜</h3>
 
 <button onclick="playVoice()">💜 Tap to hear me</button>
 
-<audio id="voicePlayer" src="https://files.catbox.moe/bbipq5.mp3"></audio>
-<button onclick="showSurprise()">Tap for surprise 💜</button>
+<audio id="voicePlayer" preload="auto">
+  <source src="https://files.catbox.moe/bbipq5.mp3" type="audio/mpeg">
+</audio><button onclick="showSurprise()">Tap for surprise 💜</button>
 <p id="surprise" style="display:none;">
 You are my peace… my safe place… and my favorite person 💙
 </p>
@@ -271,9 +273,12 @@ function growTreeDaily() {
 window.onload = function() {
   startConfetti();
 }
-    function playVoice(){
+   function playVoice(){
   let audio = document.getElementById("voicePlayer");
-  audio.play();
+  audio.currentTime = 0; // restart each time
+  audio.play().catch(() => {
+    alert("Tap again to play 💜");
+  });
 }
 
 </script>
